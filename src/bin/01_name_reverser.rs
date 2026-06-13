@@ -12,3 +12,15 @@
 // - 思考：变量在传给 println! 后还能继续使用吗？（所有权移动）
 //
 // 运行方式：cargo run --bin 01_name_reverser
+
+fn main() {
+    let mut input = String::new();
+    println!("请输入字符：");
+    std::io::stdin().read_line(&mut input).expect("读取失败");
+    let reverse_name = name_reverser(&input);
+    println!("输出字符：{}", reverse_name);
+}
+
+fn name_reverser(name: &str) -> String {
+    name.chars().rev().collect()
+}

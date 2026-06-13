@@ -13,3 +13,6 @@
 // - 战斗循环：双方轮流攻击，直到一方 HP 归零
 //
 // 运行方式：cargo run --bin 05_monster_battle
+fn main() {
+    
+}

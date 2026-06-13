@@ -11,3 +11,6 @@
 // - 思考：如果房间很多，如何组织代码？模块系统 mod 怎么用？
 //
 // 运行方式：cargo run --bin 08_text_adventure
+fn main() {
+    
+}

@@ -11,3 +11,31 @@
 // - 思考：&str 和 String 的区别是什么？什么时候用哪个？
 //
 // 运行方式：cargo run --bin 03_poem_generator
+use rand::{Rng, thread_rng};
+
+fn main() {
+    let subject = vec![
+        "晚风", "老猫", "孤灯", "浮云", "山雀", "墨客", "残月", "顽童",
+    ];
+    let adverb = vec![
+        "月下", "窗边", "荒郊", "渡口", "柳边", "雨夜", "山前", "花间",
+    ];
+    let verb = vec![
+        "轻吻", "偷走", "打翻", "闲看", "揉碎", "揽住", "踏破", "细数",
+    ];
+    let obj = vec![
+        "流年", "星河", "旧梦", "炊烟", "尘缘", "霜华", "晚霞", "清愁",
+    ];
+
+    let si = thread_rng().gen_range(0..subject.len());
+    let s = subject[si];
+    let ai = thread_rng().gen_range(0..adverb.len());
+    let a = adverb[ai];
+    let vi = thread_rng().gen_range(0..verb.len());
+    let v = verb[vi];
+    let oi = thread_rng().gen_range(0..obj.len());
+    let o = obj[oi];
+
+    let new_word = format!("{}{}{}{}", s, a, v, o);
+    println!("{}", new_word);
+}

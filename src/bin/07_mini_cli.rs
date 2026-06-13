@@ -11,3 +11,6 @@
 // - 思考：如何处理无效输入？用 Result 还是 panic？
 //
 // 运行方式：cargo run --bin 07_mini_cli -- add 午饭 25
+fn main() {
+    
+}

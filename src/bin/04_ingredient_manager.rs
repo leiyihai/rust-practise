@@ -12,3 +12,67 @@
 // - 思考：为什么 Rust 不允许同时存在可变引用和不可变引用？
 //
 // 运行方式：cargo run --bin 04_ingredient_manager
+#[derive(Debug)]
+struct Ingredient {
+    name: String,
+    used: bool,
+}
+
+impl Ingredient {
+    fn new(name: &str) -> Self {
+        Self {
+            name: name.to_string(),
+            used: false,
+        }
+    }
+}
+
+#[derive(Debug)]
+struct Kitchen {
+    items: Vec<Ingredient>,
+}
+impl Kitchen {
+    fn new() -> Self {
+        Self { items: Vec::new() }
+    }
+
+    fn add(&mut self, name: &str) {
+        self.items.push(Ingredient::new(name));
+    }
+
+    fn borrow_ingredient(&self, name: &str) -> Option<&Ingredient> {
+        self.items.iter().find(|ing| ing.name == name && ing.used)
+    }
+
+    fn use_ingredient(&mut self, name: &str) -> Result<(), String> {
+        match self.items.iter_mut().find(|ing| ing.name == name) {
+            None => Err(format!("不存在食材：{}", name)),
+            Some(ing) => {
+                if ing.used {
+                    Err(format!("{}已经被用完了", name))
+                } else {
+                    ing.used = true;
+                    Ok(())
+                }
+            }
+        }
+    }
+}
+
+fn main() {
+    let mut kitchen = Kitchen::new();
+    kitchen.add("鸡蛋");
+    kitchen.add("面粉");
+
+    match kitchen.borrow_ingredient("鸡蛋") {
+        Some(_) => println!("鸡蛋可以取用"),
+        None => println!("鸡蛋不可用"),
+    }
+
+    if kitchen.use_ingredient("鸡蛋").is_ok() {
+        println!("鸡蛋使用完毕");
+    }
+
+    let res = kitchen.borrow_ingredient("鸡蛋");
+    println!("{:?}", res);
+}

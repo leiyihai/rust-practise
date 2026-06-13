@@ -12,3 +12,52 @@
 // - 猜对时用 break 提前退出循环
 //
 // 运行方式：cargo run --bin 02_guessing_game
+use rand::{Rng, thread_rng};
+use std::cmp::Ordering;
+
+fn main() {
+    let secret_num = thread_rng().gen_range(1..=100);
+    let can_guess_count = 10;
+    let mut guess_count = 0;
+    loop {
+        if guess_count >= can_guess_count {
+            println!("未猜中，游戏结束！");
+            break;
+        }
+
+        println!("请输入你猜测的数字：");
+        let mut guess = String::new();
+        std::io::stdin().read_line(&mut guess).expect("读取失败！");
+
+        if let Ok(guess) = guess.trim().parse::<u32>() {
+            if guess == secret_num {
+                println!("猜对了!");
+                break;
+            } else if guess.abs_diff(secret_num) <= 10 {
+                println!("热: {}", guess);
+                cmp_num(guess, secret_num);
+                guess_count += 1;
+            } else if guess.abs_diff(secret_num) <= 25 {
+                println!("温: {}", guess);
+                cmp_num(guess, secret_num);
+                guess_count += 1;
+            } else if guess.abs_diff(secret_num) > 25 {
+                println!("冷: {}", guess);
+                cmp_num(guess, secret_num);
+                guess_count += 1;
+            }
+            println!("剩余猜测次数: {}", can_guess_count - guess_count);
+            println!();
+        } else {
+            println!("You need a number between 1 and 100.");
+        }
+    }
+}
+
+fn cmp_num(a: u32, b: u32) {
+    match a.cmp(&b) {
+        Ordering::Less => println!("偏小"),
+        Ordering::Equal => println!("猜对了"),
+        Ordering::Greater => println!("偏大"),
+    }
+}
