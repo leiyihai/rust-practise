@@ -1,34 +1,37 @@
 #[derive(Debug)]
-struct Score{
+struct Score {
     name: String,
     score: u32,
 }
 
 #[derive(Debug)]
-struct Class{
+struct Class {
     scores: Vec<Score>,
 }
 
 impl Class {
-    fn new() -> Class{
+    fn new() -> Class {
         Class { scores: Vec::new() }
     }
 
-    fn add(&mut self, stu_name: &str, score: u32){
+    fn add(&mut self, stu_name: &str, score: u32) {
         match self.scores.iter_mut().find(|stu| stu.name == stu_name) {
             Some(s) => {
                 s.score = score;
             }
-            None => self.scores.push(Score { name: stu_name.to_string(), score }),
+            None => self.scores.push(Score {
+                name: stu_name.to_string(),
+                score,
+            }),
         }
     }
 
-    fn get_score(&self, stu_name: &str) -> Option<&Score>{
-        self.scores.iter().find(|stu|stu.name == stu_name)
+    fn get_score(&self, stu_name: &str) -> Option<&Score> {
+        self.scores.iter().find(|stu| stu.name == stu_name)
     }
 
-    fn modify_score(&mut self, stu_name: &str, new_score:u32) -> Result<u32, String>{
-        match self.scores.iter_mut().find(|stu|stu.name == stu_name) {
+    fn modify_score(&mut self, stu_name: &str, new_score: u32) -> Result<u32, String> {
+        match self.scores.iter_mut().find(|stu| stu.name == stu_name) {
             None => Err(format!("学生「{}」不存在", stu_name)),
             Some(stu) => {
                 stu.score = new_score;
@@ -37,18 +40,18 @@ impl Class {
         }
     }
 
-    fn delete_student(&mut self, stu_name: &str) -> Result<(), String>{
-         match self.scores.iter_mut().find(|stu|stu.name == stu_name) {
+    fn delete_student(&mut self, stu_name: &str) -> Result<(), String> {
+        match self.scores.iter_mut().find(|stu| stu.name == stu_name) {
             None => Err(format!("{}同学不存在", stu_name)),
             Some(_) => {
-                self.scores.retain(|stu|stu.name != stu_name);
+                self.scores.retain(|stu| stu.name != stu_name);
                 Ok(())
             }
-         }
+        }
     }
 
-    fn list_all(&self){
-        for stu in &self.scores{
+    fn list_all(&self) {
+        for stu in &self.scores {
             println!("{}: {}", stu.name, stu.score);
         }
     }
@@ -62,10 +65,10 @@ fn main() {
     class.add("小白", 60);
 
     match class.get_score("小明") {
-        Some(s) =>{
+        Some(s) => {
             println!("{}的分数是：{}分", s.name, s.score);
         }
-        None =>{}
+        None => {}
     }
 
     match class.modify_score("小红", 98) {

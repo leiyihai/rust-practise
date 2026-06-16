@@ -11,7 +11,7 @@ struct Inbox {
 
 impl Inbox {
     fn new() -> Inbox {
-        Inbox{ mails: Vec::new(), }
+        Inbox { mails: Vec::new() }
     }
 
     fn add_mail(&mut self, id: u32, title: &str, content: &str) {
@@ -19,36 +19,36 @@ impl Inbox {
             Some(mail) => {
                 mail.title = title.to_string();
                 mail.content = content.to_string();
-            },
+            }
             None => {
-                self.mails.push(Mail { 
-                    id, 
-                    title: title.to_string(), 
-                    content: content.to_string(), 
-                    is_read: false, 
+                self.mails.push(Mail {
+                    id,
+                    title: title.to_string(),
+                    content: content.to_string(),
+                    is_read: false,
                 });
             }
         }
     }
 
     fn find_mail(&self, id: u32) -> Option<&Mail> {
-        self.mails.iter().find(|m|m.id == id)
+        self.mails.iter().find(|m| m.id == id)
     }
 
     fn read_mail(&mut self, id: u32) -> Result<(), String> {
-        if let Some(mail) = self.mails.iter_mut().find(|m|m.id == id) {
+        if let Some(mail) = self.mails.iter_mut().find(|m| m.id == id) {
             mail.is_read = true;
             Ok(())
-        }else {
+        } else {
             Err(format!("未找到id{}的邮件", id))
         }
     }
 
-    fn delete_mail(&mut self, id: u32) -> Result<(),String> {
-        match self.mails.iter_mut().find(|m|m.id == id) {
+    fn delete_mail(&mut self, id: u32) -> Result<(), String> {
+        match self.mails.iter_mut().find(|m| m.id == id) {
             None => Err(format!("id{}对应的邮件不存在，无法删除", id)),
             Some(_) => {
-                self.mails.retain(|m|m.id != id);
+                self.mails.retain(|m| m.id != id);
                 Ok(())
             }
         }
@@ -61,10 +61,9 @@ impl Inbox {
             }
         }
     }
-
 }
 
-fn main(){
+fn main() {
     // 1. 创建空收件箱
     let mut inbox = Inbox::new();
 

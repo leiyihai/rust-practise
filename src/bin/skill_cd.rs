@@ -16,14 +16,17 @@ impl SkillBar {
     }
 
     fn add_skill(&mut self, name: &str, init_cd: u32, origin_cd: u32) {
-        match self.skills.iter_mut().find(|s| s.name == name ) {
-            None => {self.skills.push(Skill { 
-                name: name.to_string(), 
-                cd: init_cd,
-                origin_cd });},
+        match self.skills.iter_mut().find(|s| s.name == name) {
+            None => {
+                self.skills.push(Skill {
+                    name: name.to_string(),
+                    cd: init_cd,
+                    origin_cd,
+                });
+            }
             Some(skill) => {
                 skill.cd = init_cd;
-            },
+            }
         }
     }
 
@@ -33,17 +36,15 @@ impl SkillBar {
 
     fn use_skill(&mut self, name: &str) -> Result<(), String> {
         match self.skills.iter_mut().find(|s| s.name == name) {
-            None => {
-                Err(format!("{}技能不存在", name.to_string()))
-            },
+            None => Err(format!("{}技能不存在", name.to_string())),
             Some(skill) => {
                 if skill.cd > 0 {
-                    return Err(format!("{}技能冷却中", name.to_string()))
-                }else {
+                    return Err(format!("{}技能冷却中", name.to_string()));
+                } else {
                     skill.cd = skill.origin_cd;
-                    return Ok(())
+                    return Ok(());
                 }
-            },
+            }
         }
     }
 
@@ -60,7 +61,6 @@ impl SkillBar {
             }
         }
     }
-
 }
 
 fn main() {
@@ -74,8 +74,12 @@ fn main() {
 
     // 查询技能
     match bar.get_skill("无尽冬日") {
-        Some(skill) => { println!("找到了技能:{}", skill.name) },
-        None => { println!("未找到该技能") },
+        Some(skill) => {
+            println!("找到了技能:{}", skill.name)
+        }
+        None => {
+            println!("未找到该技能")
+        }
     }
 
     // 火球初始cd=8，不能直接放

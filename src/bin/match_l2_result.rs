@@ -34,8 +34,12 @@ fn main() {
 
 fn find_res(r: Result<String, String>) {
     match r {
-        Ok(val) => {println!("成功：{val}")},
-        Err(e) => {println!("错误：{e}")},
+        Ok(val) => {
+            println!("成功：{val}")
+        }
+        Err(e) => {
+            println!("错误：{e}")
+        }
     }
 }
 //

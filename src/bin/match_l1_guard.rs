@@ -23,9 +23,11 @@
 fn main() {
     let score: Option<u32> = Some(72);
     match score {
-        Some(val) if val >= 60 => { println!("及格，分数：{}", val) },
+        Some(val) if val >= 60 => {
+            println!("及格，分数：{}", val)
+        }
         Some(val) => println!("不及格，分数：{}", val),
-        None => println!("无成绩")
+        None => println!("无成绩"),
     }
 }
 //

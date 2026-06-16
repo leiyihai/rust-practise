@@ -12,6 +12,4 @@
 // - 思考：闭包和函数指针 fn 的区别是什么？
 //
 // 运行方式：cargo run --bin 06_name_magician
-fn main() {
-    
-}
+fn main() {}

@@ -1,42 +1,47 @@
 #[derive(Debug)]
-struct Item{
+struct Item {
     name: String,
     count: u32,
 }
 
 #[derive(Debug)]
-struct PlayerBag{
+struct PlayerBag {
     items: Vec<Item>,
 }
 
 impl PlayerBag {
-    fn new() -> PlayerBag{
+    fn new() -> PlayerBag {
         PlayerBag { items: Vec::new() }
     }
 
-    fn add(&mut self, item_name:&str, num: u32){
-        if let Some(item) = self.items.iter_mut().find(|i| i.name == item_name){
+    fn add(&mut self, item_name: &str, num: u32) {
+        if let Some(item) = self.items.iter_mut().find(|i| i.name == item_name) {
             item.count += num;
         } else {
             self.items.push(Item {
                 name: item_name.to_string(),
-                count: num
+                count: num,
             });
         }
     }
 
-    fn get_item(&self, item_name:&str) -> Option<&Item>{
-        self.items.iter().find(|item|item.name == item_name && item.count > 0)
+    fn get_item(&self, item_name: &str) -> Option<&Item> {
+        self.items
+            .iter()
+            .find(|item| item.name == item_name && item.count > 0)
     }
 
     // 修复：拆分查找和数量判断，区分两种错误；新增数量归零自动删除
-    fn use_item(&mut self, item_name:&str, num: u32) -> Result<u32, String>{
+    fn use_item(&mut self, item_name: &str, num: u32) -> Result<u32, String> {
         // 第一步：只按名字查找，不提前判断数量
         match self.items.iter_mut().find(|item| item.name == item_name) {
             None => Err(format!("物品「{}」不存在", item_name)),
             Some(good) => {
                 if good.count < num {
-                    return Err(format!("「{}」数量不足，现有{}个，需要{}个", item_name, good.count, num));
+                    return Err(format!(
+                        "「{}」数量不足，现有{}个，需要{}个",
+                        item_name, good.count, num
+                    ));
                 }
                 // 扣减数量
                 good.count -= num;
@@ -52,20 +57,20 @@ impl PlayerBag {
         }
     }
 
-    fn list_all(&self){
+    fn list_all(&self) {
         println!("\n背包清单：");
         if self.items.is_empty() {
             println!("背包已空");
             return;
         }
-        for item in &self.items{
-            print!("{}:{}个；", item.name,item.count);
+        for item in &self.items {
+            print!("{}:{}个；", item.name, item.count);
         }
         println!();
     }
 }
 
-fn main(){
+fn main() {
     let mut my_bag = PlayerBag::new();
     my_bag.add("红药水", 5);
     my_bag.add("铁剑", 1);

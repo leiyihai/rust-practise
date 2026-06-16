@@ -18,10 +18,12 @@ impl ShopCart {
             Some(item) => {
                 item.price = price;
                 item.num = num;
-            },
-            None => {self.items.push(CarGoods {
-                item_name: name.to_string(), price, num,
-            })},
+            }
+            None => self.items.push(CarGoods {
+                item_name: name.to_string(),
+                price,
+                num,
+            }),
         }
         println!("已添加{}：{}个", name, num);
     }
@@ -42,8 +44,8 @@ impl ShopCart {
                 }
 
                 Ok(remain)
-            },
-            None => { Err(format!("商品{}不存在", name)) },
+            }
+            None => Err(format!("商品{}不存在", name)),
         }
     }
 
@@ -62,12 +64,15 @@ impl ShopCart {
     fn show_cart(&self) {
         println!("====购物车商品清单====");
         for item in &self.items {
-            println!("{}[单价：{}, 数量：{}]", item.item_name, item.price, item.num);
+            println!(
+                "{}[单价：{}, 数量：{}]",
+                item.item_name, item.price, item.num
+            );
         }
     }
 }
 
-fn main(){
+fn main() {
     let mut shop_cart = ShopCart::new();
 
     println!("====增加购物清单====");
@@ -79,15 +84,15 @@ fn main(){
 
     println!("====减少购买数量====");
     match shop_cart.sub_item("螺蛳粉", 2) {
-        Ok(_) => { },
+        Ok(_) => {}
         Err(e) => print!("{}", e),
     }
     match shop_cart.sub_item("洗衣液", 2) {
-        Ok(_) => { },
+        Ok(_) => {}
         Err(e) => print!("{}", e),
     }
     match shop_cart.sub_item("凉茶", 2) {
-        Ok(_) => { },
+        Ok(_) => {}
         Err(e) => print!("{}", e),
     }
     println!();
